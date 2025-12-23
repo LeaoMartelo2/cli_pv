@@ -2,25 +2,17 @@
 #include "progress_bar.h"
 #include "skill_fetcher.h"
 #include <curl/curl.h>
-#include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <print>
 #include <string>
+
+#ifndef HYPIXEL_API_KEY
+#error "HYPIXEL_API_KEY must be defined at compile time, check the Makefile"
+#endif
 
 std::string load_api_key() {
 
-    /* this is prob one of the worst ways to do it */
-
-    std::ifstream file(".env");
-    std::string line;
-
-    while (std::getline(file, line)) {
-        if (line.rfind("HYPIXEL_API_KEY=", 0) == 0) {
-            return line.substr(16);
-        }
-    }
-    return "";
+    return HYPIXEL_API_KEY;
 }
 
 int main(int argc, char **argv) {
