@@ -9,7 +9,7 @@
 <img src="readme/1.png">
 
 
-## Requireaments:
+## Requirements:
 
 - libcurl
 - clang and/or gcc
