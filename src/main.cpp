@@ -1,6 +1,7 @@
 #include "config.h"
 #include "level_calculator.h"
 #include "progress_bar.h"
+#include "sb_level.h"
 #include "skill_fetcher.h"
 #include <curl/curl.h>
 #include <getopt.h>
@@ -25,22 +26,22 @@ int main(int argc, char **argv) {
         {0, 0, 0, 0},
     };
 
-    int opt; 
+    int opt;
 
-    while((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1 ) {
-        
-        switch(opt) {
-            case 'w':
-                g_config.progress_width = std::atoi(optarg);
-                if (g_config.progress_width <= 0) {
-                    std::cerr << "Error --width must be a positive value\n";
-                    return 1;
-                }
+    while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
+
+        switch (opt) {
+        case 'w':
+            g_config.progress_width = std::atoi(optarg);
+            if (g_config.progress_width <= 0) {
+                std::cerr << "Error --width must be a positive value\n";
+                return 1;
+            }
             break;
 
-            default:
-                std::cerr << "Unknown option\n";
-                return 1;
+        default:
+            std::cerr << "Unknown option\n";
+            return 1;
         }
     }
 
@@ -77,6 +78,7 @@ int main(int argc, char **argv) {
 
     // clang-format off
 
+
     double farming_lvl      = tables.count("FARMING")       ? calculate_level(skills.farming_xp,    tables["FARMING"]) : 0.0;
     double mining_lvl       = tables.count("MINING")        ? calculate_level(skills.mining_xp,     tables["MINING"]) : 0.0;
     double combat_lvl       = tables.count("COMBAT")        ? calculate_level(skills.combat_xp,     tables["COMBAT"]) : 0.0;
@@ -103,6 +105,8 @@ int main(int argc, char **argv) {
     auto print = [&](const std::string &name, const std::string &bar, const std::string &level) {
         std::cout << "\033[1m" << std::left << std::setw(12) << name << "\033[0m" << bar << " " << level << "\n";
     };
+
+    print_sb_lvl(skills.skyblock_level);
 
     print("Farming", make_progress_bar(current_farming, farming_max, true, potential_farming),
           format_special_level(current_farming, potential_farming, farming_max));

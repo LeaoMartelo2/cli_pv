@@ -177,5 +177,10 @@ player_skills fetch_player_skills(const std::string& api_key, const std::string&
         info.taming_cap_unlocks = 50 + count;
     }
 
+    if(member.contains("leveling") && member["leveling"].contains("experience")) {
+        info.total_sb_xp = member["leveling"]["experience"];
+        info.skyblock_level = info.total_sb_xp / 100.00;
+    }
+
     return info;
 }

@@ -15,6 +15,10 @@ struct skill_data {
 };
 
 struct player_skills {
+
+    double total_sb_xp;
+    double skyblock_level;
+
     std::string profile_name = "Unknown";
     int64_t farming_xp = 0;
     int64_t mining_xp = 0;
