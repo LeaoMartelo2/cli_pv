@@ -1,7 +1,9 @@
+#include "config.h"
 #include "level_calculator.h"
 #include "progress_bar.h"
 #include "skill_fetcher.h"
 #include <curl/curl.h>
+#include <getopt.h>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -17,12 +19,38 @@ std::string load_api_key() {
 
 int main(int argc, char **argv) {
 
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <player_name>\n";
+    static struct option long_options[] = {
+
+        {"width", required_argument, 0, 'w'},
+        {0, 0, 0, 0},
+    };
+
+    int opt; 
+
+    while((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1 ) {
+        
+        switch(opt) {
+            case 'w':
+                g_config.progress_width = std::atoi(optarg);
+                if (g_config.progress_width <= 0) {
+                    std::cerr << "Error --width must be a positive value\n";
+                    return 1;
+                }
+            break;
+
+            default:
+                std::cerr << "Unknown option\n";
+                return 1;
+        }
+    }
+
+    if (argc - optind != 1) {
+
+        std::cerr << "Usage: " << argv[0] << " <player_name> [<options>]\n Use --help for more info\n";
         return 1;
     }
 
-    std::string username = argv[1];
+    std::string username = argv[optind];
     std::string api_key = load_api_key();
 
     if (api_key.empty()) {

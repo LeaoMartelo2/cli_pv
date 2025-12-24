@@ -1,5 +1,6 @@
 #ifndef PROGRESS_BAR_H
 #define PROGRESS_BAR_H
+#include "config.h"
 
 #include <string>
 

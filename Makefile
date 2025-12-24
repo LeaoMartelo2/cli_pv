@@ -1,8 +1,8 @@
 CXX = clang++
-CXXFLAGS = -std=c++17 -Isrc -Wall -Wextra
+CXXFLAGS = -std=c++17 -Wall -Wextra
 LDFLAGS = -lcurl
 TARGET = pv
-SOURCES = src/main.cpp src/skill_fetcher.cpp src/level_calculator.cpp src/progress_bar.cpp
+SOURCES = src/main.cpp src/skill_fetcher.cpp src/level_calculator.cpp src/progress_bar.cpp src/config.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Load .env if it exists
